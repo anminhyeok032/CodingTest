@@ -31,6 +31,25 @@ int solution()
 	return low;
 }
 
+
+int solution(int low, int high)
+{
+	if (high <= low) return low;
+	int mid = (low + high) / 2;
+	long long count = 0;
+	for (int i = 0; i < k; i++)
+	{	
+		// 최소 범위가 현재 중간값보다 큰 조건은 몫에 들어가지 않으므로 스킵 
+		if (mid < MinMax[i].first)	continue;
+		// 중간값과 범위 Min 값 비교 후 작은 값으로 몫 + 1 값 계산
+		count += (min(MinMax[i].second, mid) - MinMax[i].first) / condition[i] + 1;
+	}
+	if (count >= d) return solution(low, mid - 1);
+	else return solution(mid + 1, high);
+	
+}
+
+
 int main()
 {
 
@@ -44,6 +63,6 @@ int main()
 		condition.emplace_back(c);
 		
 	}
-	int result = solution();
+	int result = solution(0, 999999);
 	std::cout << result << std::endl;
 }
